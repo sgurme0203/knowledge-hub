@@ -1,0 +1,2248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tibs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+/* -------- DESIGN TOKENS -------- */
+:root {
+  --telstra-red: #e2231a;
+  --bg-deep: #0b0f14;
+  --bg-panel: #f4f6f9;
+  --border-tech: #c7cdd6;
+  --text-muted: #64748b;
+  --grid-line: rgba(15, 23, 42, 0.06);
+}
+
+/* -------- RESET -------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+/* -------- BACKGROUND -------- */
+body {
+  min-height: 100vh;
+  background-color: #0f172a;
+  background-image:
+    linear-gradient(135deg, #0f172a 0%, #1e293b 48%, #0f172a 100%),
+    repeating-linear-gradient(
+      -12deg,
+      transparent,
+      transparent 9px,
+      var(--grid-line) 9px,
+      var(--grid-line) 10px
+    );
+  background-size: 100% 100%, 24px 24px;
+}
+
+.page-wrapper {
+  background: var(--bg-panel);
+  min-height: 100vh;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+/* -------- TOP BAR -------- */
+.topbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  min-height: 58px;
+  padding: 0 22px;
+  background: linear-gradient(180deg, #131920 0%, #0d1117 100%);
+  border-bottom: 1px solid #1e293b;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.05) inset,
+    0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+.topbar-logo {
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+  padding: 6px 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.topbar-logo:focus-visible {
+  outline: 2px solid var(--telstra-red);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.brand-mark {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: linear-gradient(145deg, rgba(226, 35, 26, 0.95) 0%, #b91c1c 100%);
+  border-radius: 6px;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.12) inset,
+    0 2px 12px rgba(226, 35, 26, 0.35);
+}
+
+.brand-text-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1.15;
+}
+
+.brand-name {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #f1f5f9;
+}
+
+.brand-tagline {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.page-title {
+  justify-self: center;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: clamp(13px, 1.5vw, 17px);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.topbar-edge {
+  justify-self: end;
+  width: 120px;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, rgba(226, 35, 26, 0.7), transparent);
+  opacity: 0.85;
+}
+
+/* -------- LAYOUT -------- */
+.layout {
+  display: flex;
+}
+
+/* -------- SIDEBAR -------- */
+.sidebar {
+  width: 268px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  padding: 20px 18px 20px 20px;
+  border-right: 1px solid var(--border-tech);
+  border-left: 3px solid var(--telstra-red);
+  box-shadow: 4px 0 24px rgba(15, 23, 42, 0.04);
+}
+
+.sidebar h3 {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+}
+
+.sidebar h3.sidebar-topics-trigger {
+  cursor: pointer;
+  user-select: none;
+  border-radius: 6px;
+  margin: -4px -6px 12px;
+  padding: 4px 6px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.sidebar h3.sidebar-topics-trigger:hover {
+  color: var(--text-primary);
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.sidebar h3.sidebar-topics-trigger:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.tree ul {
+  list-style: none;
+}
+
+.tree li {
+  margin: 6px 0;
+}
+
+.tree span {
+  cursor: pointer;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.tree li span {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.tree li ul li span {
+  margin-left: 16px;
+  color: #475569;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+/* -------- MAIN -------- */
+.main {
+  flex: 1;
+  padding: 28px 32px 40px;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 31px,
+    rgba(15, 23, 42, 0.04) 31px,
+    rgba(15, 23, 42, 0.04) 32px
+  );
+}
+
+.main h2 {
+  margin: 14px 0 16px;
+  font-size: clamp(1.75rem, 3.2vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  color: #0f172a;
+}
+
+.main--home {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-top: 32px;
+  padding-bottom: 48px;
+}
+
+.main--home .breadcrumb {
+  margin-bottom: 20px;
+  font-size: 12px;
+}
+
+.main:not(.main--home) .home-layout,
+.main:not(.main--home) .home-lead,
+.main:not(.main--home) .home-transcript-search {
+  display: none;
+}
+
+.main--home .home-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+  gap: 36px 48px;
+  align-items: start;
+  margin-top: 4px;
+}
+
+.main--home .home-intro {
+  padding-top: 8px;
+  padding-right: 8px;
+}
+
+.main--home .home-kicker {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--telstra-red);
+  margin-bottom: 14px;
+}
+
+.main--home h2 {
+  margin: 0 0 16px;
+  font-size: clamp(2.125rem, 5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+  color: #0f172a;
+}
+
+.home-lead {
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  line-height: 1.55;
+  color: #475569;
+  font-weight: 500;
+  max-width: 36ch;
+}
+
+.home-transcript-search {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #e2e8f0;
+  max-width: 42rem;
+}
+
+.home-search-label {
+  display: block;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #334155;
+  margin-bottom: 10px;
+}
+
+.home-search-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+#homeTranscriptSearch {
+  flex: 1;
+  min-width: 200px;
+  padding: 12px 14px;
+  border: 1px solid var(--border-tech);
+  border-radius: 8px;
+  font-size: 15px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+#homeTranscriptSearch:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.home-search-btn {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset;
+}
+
+.home-search-btn:hover {
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.home-shared-transcript-btn {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  border: 1px solid var(--border-tech);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-primary);
+  background: var(--bg-panel);
+}
+
+.home-shared-transcript-btn:hover:not(:disabled) {
+  border-color: #1d4ed8;
+  color: #1e40af;
+}
+
+.home-shared-transcript-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.home-transcript-local-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.home-transcript-dropzone {
+  margin-top: 8px;
+  padding: 14px;
+  border: 1px dashed var(--border-tech);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  cursor: default;
+}
+
+.home-transcript-dropzone.dragover {
+  border-color: #1d4ed8;
+  background: rgba(59, 130, 246, 0.08);
+  color: var(--text-primary);
+}
+
+.home-search-hint {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 10px;
+  line-height: 1.45;
+}
+
+.home-search-results-meta {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-top: 14px;
+  min-height: 1.25em;
+}
+
+.home-results-heading {
+  display: none;
+  font-size: 14px;
+  font-weight: 700;
+  color: #334155;
+  margin: 28px 0 14px;
+  letter-spacing: -0.02em;
+}
+
+.main--home .home-results-heading.is-visible {
+  display: block;
+}
+
+.card-path {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  color: #64748b;
+  margin: 0 0 10px;
+  letter-spacing: 0.04em;
+}
+
+.card-path-sep {
+  margin: 0 6px;
+  color: #94a3b8;
+}
+
+.transcript-detail-value {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.transcript-status-btn {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+}
+
+.transcript-status-btn--ready {
+  color: #fff;
+  background: linear-gradient(180deg, #22c55e 0%, #15803d 100%);
+}
+
+.transcript-status-btn--ready:hover {
+  filter: brightness(1.06);
+}
+
+.transcript-status-btn--missing {
+  color: #fff;
+  background: linear-gradient(180deg, #f87171 0%, #b91c1c 100%);
+  cursor: not-allowed;
+  opacity: 0.92;
+}
+
+.transcript-panel {
+  margin-top: 10px;
+  width: 100%;
+  padding: 12px 14px;
+  background: #f8fafc;
+  border: 1px solid var(--border-tech);
+  border-radius: 8px;
+  max-height: 260px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.transcript-panel-inner {
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.topic-page-heading {
+  display: none;
+  margin: 8px 0 18px;
+  font-size: clamp(1.75rem, 3.2vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  color: #0f172a;
+}
+
+.main:not(.main--home) .topic-page-heading {
+  display: block;
+}
+
+.main--home .excel-import {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 26px 28px 24px;
+  margin-bottom: 0;
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.06),
+    0 16px 40px rgba(15, 23, 42, 0.08);
+  border-left: 4px solid var(--telstra-red);
+}
+
+.main--home .excel-import label {
+  font-size: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.main--home .import-hint {
+  font-size: 13px;
+  max-width: none;
+  margin-top: 12px;
+}
+
+.main--home .excel-format-table {
+  max-width: none;
+  margin-top: 14px;
+}
+
+@media (max-width: 960px) {
+  .main--home .home-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .home-lead {
+    max-width: none;
+  }
+}
+
+/* -------- BREADCRUMB -------- */
+.breadcrumb {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.breadcrumb span {
+  color: #1d4ed8;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.breadcrumb span:hover {
+  color: var(--telstra-red);
+}
+
+.separator {
+  margin: 0 6px;
+  color: #999;
+}
+
+/* -------- SEARCH -------- */
+.excel-import {
+  font-size: 13px;
+  margin-bottom: 14px;
+  color: #444;
+}
+.excel-import label {
+  cursor: pointer;
+  font-weight: 600;
+}
+.excel-import input[type="file"] {
+  margin-left: 8px;
+  font-size: 13px;
+}
+.excel-import.excel-import--hidden {
+  display: none;
+}
+.import-hint {
+  font-size: 12px;
+  color: #666;
+  margin: 6px 0 0;
+  max-width: 640px;
+  line-height: 1.4;
+}
+.import-status {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #15803d;
+}
+.import-status.error {
+  color: #b91c1c;
+}
+
+.excel-format-table {
+  width: 100%;
+  max-width: 720px;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-top: 10px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.excel-format-table th,
+.excel-format-table td {
+  border: 1px solid #e5e7eb;
+  padding: 8px 10px;
+  text-align: left;
+}
+.excel-format-table thead th {
+  background: #f3f4f6;
+  font-weight: 600;
+  color: #1f2937;
+  white-space: nowrap;
+}
+.excel-format-table .excel-format-note {
+  color: #6b7280;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+.card-details .detail-row {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 10px;
+  align-items: start;
+}
+.card-details .detail-label {
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.card-details .detail-value {
+  color: #374151;
+  margin: 0;
+  word-break: break-word;
+}
+.card-details .detail-value a {
+  color: #2563eb;
+}
+
+#videoSearch {
+  display: none;
+  margin-bottom: 18px;
+  padding: 10px 14px;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 6px;
+  border: 1px solid var(--border-tech);
+  background: #fff;
+  font-family: "Inter", sans-serif;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+#videoSearch:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* -------- CARDS -------- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #fff;
+  padding: 18px 18px 16px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  border-left: 3px solid var(--telstra-red);
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.06),
+    0 8px 24px rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.card h4 {
+  margin-bottom: 8px;
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+.card p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+/* ✅ FIXED CLICKABLE LINK */
+.video-link {
+  margin-top: auto;
+  display: inline-block;
+  text-decoration: none;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%);
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 10;
+  pointer-events: auto;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset;
+}
+
+.video-link:hover {
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.video-link-disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* -------- MOBILE -------- */
+@media (max-width: 768px) {
+  .topbar {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    padding: 12px 16px 14px;
+    gap: 12px;
+  }
+  .topbar-logo {
+    justify-self: start;
+  }
+  .page-title {
+    justify-self: start;
+    letter-spacing: 0.2em;
+    font-size: 11px;
+  }
+  .topbar-edge {
+    display: none;
+  }
+  .layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-left: none;
+    border-top: 3px solid var(--telstra-red);
+    border-bottom: 1px solid var(--border-tech);
+  }
+  .main {
+    padding: 20px 18px 32px;
+  }
+  .main--home {
+    padding-top: 20px;
+  }
+  .main--home .home-layout {
+    gap: 22px;
+  }
+  .main--home .excel-import {
+    padding: 20px 18px 18px;
+  }
+}
+
+/* Clear saved data (fixed, bottom-right) */
+.tibs-clear-fab {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 9999;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #64748b;
+  background: #fff;
+  border: 1px solid var(--border-tech);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.12);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.tibs-clear-fab:hover {
+  color: #b91c1c;
+  border-color: rgba(226, 35, 26, 0.45);
+  background: #fef2f2;
+}
+.tibs-clear-fab:focus-visible {
+  outline: 2px solid var(--telstra-red);
+  outline-offset: 2px;
+}
+</style>
+</head>
+
+<body>
+<div class="page-wrapper">
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <button type="button" class="topbar-logo" id="topbarLogoHome" aria-label="Home">
+    <span class="brand-mark" aria-hidden="true">TT</span>
+    <span class="brand-text-block">
+      <span class="brand-name">Telstra Training</span>
+      <span class="brand-tagline">Learning portal</span>
+    </span>
+  </button>
+  <h1 class="page-title">Tibs</h1>
+  <div class="topbar-edge" aria-hidden="true"></div>
+</header>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <h3
+    id="sidebarTopicsHeading"
+    class="sidebar-topics-trigger"
+    role="button"
+    tabindex="0"
+    title="Show all videos from every topic"
+  >Topics</h3>
+  <div class="tree">
+    <ul id="topicTreeRoot"></ul>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main main--home">
+
+  <nav class="breadcrumb">
+    <span onclick="goHome()">Home</span>
+  </nav>
+
+  <div class="home-layout">
+    <div class="home-intro">
+      <p class="home-kicker">Session catalog</p>
+      <h2>Select a topic</h2>
+      <p class="home-lead">Choose a category from the sidebar to open recordings. Load an Excel workbook below to refresh topics, subtopics, and video links—your last import is remembered in this browser.</p>
+      <div class="home-transcript-search">
+        <label class="home-search-label" for="homeTranscriptSearch">Search by transcript</label>
+        <div class="home-search-row">
+          <input type="search" id="homeTranscriptSearch" placeholder="Words or phrases from session transcripts…" autocomplete="off" />
+          <button type="button" id="homeTranscriptSearchBtn" class="home-search-btn">Search</button>
+        </div>
+        <p class="home-search-hint">Searches loaded <strong>Transcript</strong> text. In Excel you can paste full text, or put a shared <code>https://</code> link (e.g. SharePoint) to a transcript file (<code>.txt</code>, <code>.text</code>, <code>.vtt</code>)—then click <strong>Load transcripts from shared links</strong> (stay signed in). Multi-word queries require each word to appear; spacing is normalized.</p>
+        <button type="button" id="fetchSharedTranscriptsBtn" class="home-shared-transcript-btn">Load transcripts from shared links</button>
+        <div class="home-transcript-local-row">
+          <input type="file" id="transcriptLocalFiles" accept=".txt,.text,.vtt,.md,text/plain,text/vtt" multiple style="display:none" />
+          <button type="button" id="transcriptLocalPickBtn" class="home-shared-transcript-btn">Choose local transcripts (.txt, .text, .vtt)…</button>
+        </div>
+        <div id="transcriptDropzone" class="home-transcript-dropzone">Or drop transcript files here (same basename as in the URL, or &ldquo;Video title.txt&rdquo; / <code>.text</code> / <code>.vtt</code>)</div>
+        <p id="sharedTranscriptStatus" class="import-status" aria-live="polite"></p>
+        <p id="homeSearchResultsLabel" class="home-search-results-meta" aria-live="polite"></p>
+      </div>
+    </div>
+    <div>
+  <div id="excelImportPanel" class="excel-import">
+    <label>
+      Load videos from Excel
+      <input type="file" id="excelImport" accept=".xlsx,.xls" />
+    </label>
+    <p class="import-hint">Use <strong>row 1</strong> as headers. Add optional <strong>Transcript</strong> per video: paste text, or an <strong>https</strong> URL to a shared transcript file (<code>.txt</code>, <code>.text</code>, or <code>.vtt</code>); then use <strong>Load transcripts from shared links</strong> on the home page. Topic + SubTopic build the sidebar; rows with Topic+SubTopic but empty Title still add tree nodes.</p>
+    <table class="excel-format-table">
+      <thead>
+        <tr>
+          <th>Topic</th>
+          <th>SubTopic</th>
+          <th>Title</th>
+          <th>Desc</th>
+          <th>Duration</th>
+          <th>Author</th>
+          <th>Link</th>
+          <th>Transcript</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="8" class="excel-format-note"><strong>Transcript</strong>: paste session text, or an <code>https</code> URL to a shared <code>.txt</code>, <code>.text</code>, or <code>.vtt</code> file—then use <strong>Load transcripts from shared links</strong>. Aliases: Transcript_Text, TranscriptFile, Transcript_URL. Hyperlink cells resolve to URL. No Topic column = only videos update.</td>
+        </tr>
+      </tbody>
+    </table>
+    <span id="excelImportStatus" class="import-status" aria-live="polite"></span>
+  </div>
+    </div>
+  </div>
+
+  <h2 class="topic-page-heading" id="topicPageHeading"></h2>
+
+  <p id="homeResultsHeading" class="home-results-heading">Transcript search results</p>
+
+  <input id="videoSearch" placeholder="Search title, description, author, duration, transcript…">
+
+  <div class="card-grid"></div>
+
+</main>
+</div>
+</div>
+
+<button
+  type="button"
+  id="tibsClearDataBtn"
+  class="tibs-clear-fab"
+  title="Wipe all topics, videos, and saved imports. You will need to import from Excel again (sign-in required)"
+>Clear data</button>
+
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<script>
+/* -------- DATA -------- */
+let topicMap = {
+  IME: ["AWS", "Azure"],
+  Databases: ["Oracle"]
+};
+
+let videoLibrary = {
+  IME: {
+    AWS: [
+      {
+        title: "IME Input Files",
+        desc: "Find IME Input Files for a Bill Run",
+        duration: "32.48 min",
+        author: "Sohel Barua",
+        link: "https://csgsystems.sharepoint.com/:v:/r/sites/dms_Telstra/TelstraMS/Methods%20and%20Procedures/Recorded%20Sessions/Find%20IME%20Input%20Files%20for%20a%20Bill%20Run.mp4?csf=1&web=1&e=QLSuxV",
+        transcript: "This session walks through IME input files for a bill run. We locate the staging folder, validate file names against the run manifest, and troubleshoot typical path or permission errors before submission."
+      },
+      {
+        title: "EC2 Deep Dive",
+        desc: "Instance types and pricing",
+        duration: "32 min",
+        author: "Arun Kumar",
+        link: "https://drive.google.com/",
+        transcript: ""
+      }
+    ],
+    Azure: [
+      {
+        title: "Azure Fundamentals",
+        desc: "Azure core concepts",
+        duration: "22 min",
+        author: "Microsoft Learn",
+        link: "https://drive.google.com/",
+        transcript: ""
+      }
+    ]
+  },
+  Databases: {
+    Oracle: [
+      {
+        title: "Oracle Locks Explained",
+        desc: "Blocking sessions and deadlocks",
+        duration: "25 min",
+        author: "DBA Academy",
+        link: "https://drive.google.com/",
+        transcript: "Overview of row-level locks, blocking chains, and resolving deadlock trace files in Oracle."
+      }
+    ]
+  }
+};
+
+let currentMainTopic = "";
+let currentSubTopic = "";
+let viewingAllVideos = false;
+
+const KNOWLEDGE_HUB_STORAGE_KEY = "knowledgeHub_library_v1";
+
+function isFlatVideoLibrary(lib) {
+  if (!lib || typeof lib !== "object") return false;
+  for (const v of Object.values(lib)) {
+    if (Array.isArray(v)) return true;
+    if (v && typeof v === "object") return false;
+  }
+  return false;
+}
+
+function migrateFlatVideoToNested(flat, map) {
+  const nested = {};
+  const subAssigned = new Set();
+  if (!flat || !map) return nested;
+  for (const [t, subs] of Object.entries(map)) {
+    for (const sub of subs || []) {
+      if (subAssigned.has(sub)) continue;
+      const list = flat[sub];
+      if (Array.isArray(list) && list.length) {
+        if (!nested[t]) nested[t] = {};
+        nested[t][sub] = list.slice();
+        subAssigned.add(sub);
+      }
+    }
+  }
+  return nested;
+}
+
+function getVideosForSubtopic(topic, sub) {
+  if (!topic || !sub) return [];
+  const byTopic = videoLibrary[topic];
+  if (!byTopic || typeof byTopic !== "object") return [];
+  const list = byTopic[sub];
+  return Array.isArray(list) ? list : [];
+}
+
+function getVideosForMainTopic(topic) {
+  let videos = [];
+  (topicMap[topic] || []).forEach(sub => {
+    videos = videos.concat(getVideosForSubtopic(topic, sub));
+  });
+  return videos;
+}
+
+function getAllVideosFlattened() {
+  const out = [];
+  for (const [topic, subs] of Object.entries(videoLibrary)) {
+    if (!subs || typeof subs !== "object") continue;
+    for (const [sub, list] of Object.entries(subs)) {
+      if (!Array.isArray(list)) continue;
+      for (const v of list) {
+        out.push(Object.assign({}, v, { _topic: topic, _sub: sub }));
+      }
+    }
+  }
+  return out;
+}
+
+function nestedImportHasVideos(imported) {
+  if (!imported || typeof imported !== "object") return false;
+  for (const subs of Object.values(imported)) {
+    if (!subs || typeof subs !== "object" || Array.isArray(subs)) continue;
+    for (const list of Object.values(subs)) {
+      if (Array.isArray(list) && list.length) return true;
+    }
+  }
+  return false;
+}
+
+function isTranscriptSharedUrl(s) {
+  const u = String(s || "").trim();
+  return /^https?:\/\//i.test(u);
+}
+
+function migrateTranscriptUrlsFromLegacy() {
+  let changed = false;
+  for (const subs of Object.values(videoLibrary)) {
+    if (!subs || typeof subs !== "object") continue;
+    for (const list of Object.values(subs)) {
+      if (!Array.isArray(list)) continue;
+      for (const v of list) {
+        const t = String(v.transcript || "").trim();
+        if (isTranscriptSharedUrl(t) && !String(v.transcriptUrl || "").trim()) {
+          v.transcriptUrl = t;
+          v.transcript = "";
+          changed = true;
+        }
+      }
+    }
+  }
+  return changed;
+}
+
+function loadPersistedLibrary() {
+  try {
+    const raw = localStorage.getItem(KNOWLEDGE_HUB_STORAGE_KEY);
+    if (!raw) return false;
+    const d = JSON.parse(raw);
+    if (!d || typeof d !== "object") return false;
+    if (d.topicMap && typeof d.topicMap === "object")
+      topicMap = d.topicMap;
+    if (d.videoLibrary && typeof d.videoLibrary === "object") {
+      videoLibrary = d.videoLibrary;
+      if (isFlatVideoLibrary(videoLibrary)) {
+        videoLibrary = migrateFlatVideoToNested(videoLibrary, topicMap);
+        savePersistedLibrary();
+      }
+      if (migrateTranscriptUrlsFromLegacy()) savePersistedLibrary();
+    }
+    return typeof d.topicMap === "object" || typeof d.videoLibrary === "object";
+  } catch (e) {
+    return false;
+  }
+}
+
+function savePersistedLibrary() {
+  try {
+    localStorage.setItem(
+      KNOWLEDGE_HUB_STORAGE_KEY,
+      JSON.stringify({ topicMap, videoLibrary })
+    );
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+/* -------- BREADCRUMB -------- */
+function escJsSingleQuoted(s) {
+  return String(s).replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+}
+
+function updateBreadcrumb() {
+  let html = `<span onclick="goHome()">Home</span>`;
+  if (viewingAllVideos) {
+    html += `<span class="separator">></span><span>All videos</span>`;
+  }
+  if (currentMainTopic) {
+    html += `<span class="separator">></span>
+             <span onclick="loadTopicVideos('${escJsSingleQuoted(currentMainTopic)}')">${currentMainTopic}</span>`;
+  }
+  if (currentSubTopic) {
+    html += `<span class="separator">></span>
+             <span>${currentSubTopic}</span>`;
+  }
+  document.querySelector(".breadcrumb").innerHTML = html;
+}
+
+function setExcelImportPanelVisible(show) {
+  const el = document.getElementById("excelImportPanel");
+  if (!el) return;
+  el.classList.toggle("excel-import--hidden", !show);
+}
+
+/* -------- LOAD ALL VIDEOS -------- */
+function loadAllVideos() {
+  viewingAllVideos = true;
+  currentMainTopic = "";
+  currentSubTopic = "";
+  updateBreadcrumb();
+
+  document.getElementById("topicPageHeading").innerText = "All videos";
+  document.querySelector("main.main").classList.remove("main--home");
+  setExcelImportPanelVisible(false);
+  showSearch();
+  renderVideos(getAllVideosFlattened(), { showTopicPath: true });
+}
+
+/* -------- LOAD TOPIC -------- */
+function loadTopicVideos(topic) {
+  viewingAllVideos = false;
+  currentMainTopic = topic;
+  currentSubTopic = "";
+  updateBreadcrumb();
+
+  const videos = getVideosForMainTopic(topic);
+
+  document.getElementById("topicPageHeading").innerText = topic + " - All Videos";
+  document.querySelector("main.main").classList.remove("main--home");
+  setExcelImportPanelVisible(false);
+  showSearch();
+  renderVideos(videos);
+}
+
+/* -------- LOAD SUBTOPIC -------- */
+function loadVideos(topic, sub) {
+  viewingAllVideos = false;
+  currentMainTopic = topic;
+  currentSubTopic = sub;
+  updateBreadcrumb();
+
+  document.getElementById("topicPageHeading").innerText = sub + " Videos";
+  document.querySelector("main.main").classList.remove("main--home");
+  setExcelImportPanelVisible(false);
+  showSearch();
+  renderVideos(getVideosForSubtopic(topic, sub));
+}
+
+/* -------- RENDER -------- */
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function escapeAttr(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/\r?\n/g, "")
+    .trim();
+}
+
+function normalizeHref(raw) {
+  let u = String(raw || "").trim().replace(/\s+/g, " ");
+  if (!u) return "";
+  if (/^mailto:/i.test(u)) return u;
+  if (/^https?:\/\//i.test(u)) return u;
+  if (/^\/\//.test(u)) return "https:" + u;
+  if (/^[a-z][a-z0-9+.-]*:/i.test(u)) return u;
+  if (/^www\./i.test(u)) return "https://" + u;
+  return u;
+}
+
+function normalizeTranscriptSearchText(s) {
+  let t = String(s != null ? s : "");
+  if (t.normalize) t = t.normalize("NFKC");
+  t = t
+    .toLowerCase()
+    .replace(/\u200b|\ufeff/g, "")
+    .replace(/[\u2019\u2018\u201c\u201d]/g, "'")
+    .replace(/[\u2013\u2014]/g, "-")
+    .replace(/\s+/g, " ")
+    .trim();
+  return t;
+}
+
+function transcriptTextMatchesQuery(haystackRaw, queryRaw) {
+  const h = normalizeTranscriptSearchText(haystackRaw);
+  const q = normalizeTranscriptSearchText(queryRaw);
+  if (!q || !h) return false;
+  if (h.includes(q)) return true;
+  const words = q.split(" ").filter(w => w.length > 0);
+  if (words.length <= 1) return false;
+  return words.every(w => h.includes(w));
+}
+
+function cellValueToPlainString(val) {
+  if (val == null) return "";
+  if (typeof val === "string") return val;
+  if (typeof val === "number" || typeof val === "boolean") return String(val);
+  if (typeof val === "object" && val.w != null) return String(val.w);
+  return String(val);
+}
+
+function countVideosWithTranscriptText() {
+  let n = 0;
+  for (const subs of Object.values(videoLibrary)) {
+    if (!subs || typeof subs !== "object") continue;
+    for (const list of Object.values(subs)) {
+      if (!Array.isArray(list)) continue;
+      for (const v of list) {
+        if (String(normalizeTranscriptSearchText(v.transcript || "")).length > 0) n++;
+      }
+    }
+  }
+  return n;
+}
+
+function countPendingTranscriptUrls() {
+  let n = 0;
+  for (const subs of Object.values(videoLibrary)) {
+    if (!subs || typeof subs !== "object") continue;
+    for (const list of Object.values(subs)) {
+      if (!Array.isArray(list)) continue;
+      for (const v of list) {
+        if (isTranscriptSharedUrl(v.transcriptUrl) && !String(v.transcript || "").trim()) n++;
+      }
+    }
+  }
+  return n;
+}
+
+function setSharedTranscriptStatus(msg, isError) {
+  const el = document.getElementById("sharedTranscriptStatus");
+  if (!el) return;
+  el.textContent = msg || "";
+  el.className = "import-status" + (isError ? " error" : "");
+}
+
+function normalizeTranscriptFetchError(err) {
+  if (!err) return new Error("Transcript request failed");
+  const msg = err.message || String(err);
+  if (err.name === "TypeError" && /fetch|Failed to fetch|NetworkError|Load failed/i.test(msg)) {
+    return new Error(
+      "Browser blocked the request (CORS/network), or the page is opened as file://. Use https, stay signed into SharePoint here, or use Choose local .txt / drag-and-drop below."
+    );
+  }
+  return err instanceof Error ? err : new Error(msg);
+}
+
+function appendDownloadQueryParam(urlStr) {
+  const s = String(urlStr || "").trim();
+  if (!s) return s;
+  try {
+    const u = new URL(s);
+    if (!u.searchParams.has("download")) u.searchParams.set("download", "1");
+    return u.toString();
+  } catch (e) {
+    return s + (s.indexOf("?") >= 0 ? "&" : "?") + "download=1";
+  }
+}
+
+function sharePointLayoutDownloadUrls(urlStr) {
+  const out = [];
+  try {
+    const u = new URL(String(urlStr).trim());
+    const host = u.hostname.toLowerCase();
+    if (!host.includes("sharepoint.")) return out;
+    const path = u.pathname || "";
+    const sites = path.match(/(\/sites\/[^/]+)/i);
+    const personal = path.match(/(\/personal\/[^/]+)/i);
+    const sitePrefix = sites ? sites[1] : personal ? personal[1] : "";
+    if (!sitePrefix) return out;
+    const source = String(urlStr).trim().split("#")[0];
+    out.push(
+      u.origin + sitePrefix + "/_layouts/15/download.aspx?SourceUrl=" + encodeURIComponent(source)
+    );
+  } catch (e) {}
+  return out;
+}
+
+function buildTranscriptFetchUrlAttempts(original) {
+  const base = String(original || "").trim();
+  const seen = new Set();
+  const list = [];
+  function add(u) {
+    const x = String(u || "").trim();
+    if (!x || seen.has(x)) return;
+    seen.add(x);
+    list.push(x);
+  }
+  add(base);
+  const withDl = appendDownloadQueryParam(base);
+  if (withDl !== base) add(withDl);
+  for (const x of sharePointLayoutDownloadUrls(base)) add(x);
+  for (const x of sharePointLayoutDownloadUrls(withDl)) add(x);
+  return list;
+}
+
+async function fetchAndParseTranscriptResponse(urlStr, credentials) {
+  const res = await fetch(urlStr, {
+    mode: "cors",
+    credentials: credentials,
+    cache: "no-store",
+    redirect: "follow"
+  });
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  const ct = (res.headers.get("content-type") || "").toLowerCase();
+  const text = await res.text();
+  if (!text || text.length < 1) throw new Error("Empty response");
+  const normalized = normalizeTranscriptBody(text, {
+    url: urlStr,
+    contentType: ct
+  });
+  const sample = normalized.slice(0, 1200).trim().toLowerCase();
+  if (
+    sample.includes("<!doctype html") ||
+    (sample.includes("<html") && sample.includes("<head")) ||
+    (sample.includes("sign in") && sample.includes("microsoft")) ||
+    sample.includes("authentication required")
+  ) {
+    throw new Error("Server returned a web or sign-in page, not the raw text file");
+  }
+  if (ct.includes("text/html") && !ct.includes("plain") && !ct.includes("json")) {
+    throw new Error("Server returned HTML instead of plain text");
+  }
+  return normalized;
+}
+
+async function fetchTranscriptFromSharedUrl(url) {
+  const u = String(url || "").trim();
+  if (!isTranscriptSharedUrl(u)) throw new Error("Not an http(s) URL");
+  const urls = buildTranscriptFetchUrlAttempts(u);
+  const credModes = ["include", "omit"];
+  let lastErr = null;
+  for (const tryUrl of urls) {
+    for (const cred of credModes) {
+      try {
+        return await fetchAndParseTranscriptResponse(tryUrl, cred);
+      } catch (e) {
+        lastErr = e;
+      }
+    }
+  }
+  throw normalizeTranscriptFetchError(lastErr);
+}
+
+function transcriptUrlBasename(urlStr) {
+  try {
+    const u = new URL(String(urlStr).trim());
+    const path = u.pathname || "";
+    const seg = path.split("/").filter(Boolean);
+    if (!seg.length) return "";
+    const last = decodeURIComponent((seg[seg.length - 1] || "").split("?")[0] || "");
+    return last.trim().toLowerCase();
+  } catch (e) {
+    return "";
+  }
+}
+
+function stripVttCueMarkup(s) {
+  return String(s || "")
+    .replace(/<\/?[^>]+>/g, "")
+    .trim();
+}
+
+/** Extract cue text from WEBVTT; timestamps and header stripped for search/display. */
+function vttToPlainText(vtt) {
+  const s = String(vtt || "").replace(/^\ufeff/, "");
+  if (!s.trim()) return "";
+  const lines = s.split(/\r?\n/);
+  const out = [];
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    if (!line.includes("-->")) {
+      i++;
+      continue;
+    }
+    i++;
+    while (i < lines.length) {
+      const L = lines[i];
+      if (L.includes("-->")) {
+        i--;
+        break;
+      }
+      if (/^\s*$/.test(L)) break;
+      const t = stripVttCueMarkup(L);
+      if (t) out.push(t);
+      i++;
+    }
+    i++;
+  }
+  if (out.length) return out.join("\n").trim();
+  if (/\bWEBVTT\b/i.test(s.slice(0, Math.min(s.length, 64)))) {
+    return stripVttCueMarkup(
+      s.replace(/^\ufeff?\s*WEBVTT[^\r\n]*\r?\n*/i, "").replace(/^NOTE[^\r\n]*\r?\n?/im, "")
+    )
+      .split(/\r?\n/)
+      .filter(function (ln) {
+        const t = ln.trim();
+        return t && !/-->/.test(t) && !/^\s*STYLE\b/i.test(t) && !/^\s*REGION\b/i.test(t);
+      })
+      .join("\n")
+      .trim();
+  }
+  return s.trim();
+}
+
+function looksLikeWebVtt(raw) {
+  return /\bWEBVTT\b/im.test(String(raw || "").replace(/^\ufeff/, "").slice(0, Math.min(String(raw || "").length, 8192)));
+}
+
+function transcriptUrlLooksLikeVtt(urlStr) {
+  try {
+    const u = String(urlStr || "").trim();
+    if (!/^https?:/i.test(u)) return false;
+    const path = decodeURIComponent(new URL(u).pathname || "").toLowerCase();
+    return path.endsWith(".vtt") || /\.vtt(?:\?|$)/.test(path);
+  } catch (e) {
+    return false;
+  }
+}
+
+/**
+ * Normalize transcript bytes: WEBVTT / .vtt → plain cue text for storage and search.
+ * @param {string} raw
+ * @param {{ filename?: string, url?: string, contentType?: string }} hint
+ */
+function normalizeTranscriptBody(raw, hint) {
+  hint = hint || {};
+  const name = (hint.filename || "").trim().toLowerCase();
+  const url = String(hint.url || "");
+  const ct = (hint.contentType || "").toLowerCase();
+  const r = String(raw || "");
+  const asVtt =
+    name.endsWith(".vtt") ||
+    transcriptUrlLooksLikeVtt(url) ||
+    ct.includes("webvtt") ||
+    ct.includes("text/vtt") ||
+    looksLikeWebVtt(r);
+  if (asVtt) return vttToPlainText(r);
+  return r;
+}
+
+function transcriptTitleBasenameVariants(title) {
+  const base = String(title || "")
+    .replace(/[\\/:*?"<>|]/g, "_")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+  if (!base) return [];
+  return [base + ".txt", base + ".text", base + ".vtt"];
+}
+
+async function applyLocalTranscriptFiles(fileList) {
+  const files = Array.from(fileList || []).filter(f => f && f.size <= 40 * 1024 * 1024);
+  if (!files.length) return { matched: 0, read: 0 };
+  const contents = await Promise.all(
+    files.map(
+      f =>
+        new Promise(resolve => {
+          const r = new FileReader();
+          r.onload = () => {
+            const raw = typeof r.result === "string" ? r.result : "";
+            resolve({
+              key: f.name.trim().toLowerCase(),
+              text: normalizeTranscriptBody(raw, { filename: f.name })
+            });
+          };
+          r.onerror = () => resolve({ key: f.name.trim().toLowerCase(), text: "" });
+          r.readAsText(f, "UTF-8");
+        })
+    )
+  );
+  const byName = new Map();
+  for (const c of contents) {
+    if (c.text) byName.set(c.key, c.text);
+  }
+  let matched = 0;
+  for (const subs of Object.values(videoLibrary)) {
+    if (!subs || typeof subs !== "object") continue;
+    for (const list of Object.values(subs)) {
+      if (!Array.isArray(list)) continue;
+      for (const v of list) {
+        if (!isTranscriptSharedUrl(v.transcriptUrl)) continue;
+        if (String(v.transcript || "").trim()) continue;
+        const bn = transcriptUrlBasename(v.transcriptUrl);
+        let text = bn ? byName.get(bn) : null;
+        if (!text) {
+          for (const key of transcriptTitleBasenameVariants(v.title)) {
+            const t = byName.get(key);
+            if (t) {
+              text = t;
+              break;
+            }
+          }
+        }
+        if (text) {
+          v.transcript = text;
+          matched++;
+        }
+      }
+    }
+  }
+  try {
+    savePersistedLibrary();
+  } catch (e) {}
+  runHomeTranscriptSearch();
+  return { matched, read: files.length };
+}
+
+async function fetchAllSharedTranscripts(opts) {
+  opts = opts || {};
+  const jobs = [];
+  for (const subs of Object.values(videoLibrary)) {
+    if (!subs || typeof subs !== "object") continue;
+    for (const list of Object.values(subs)) {
+      if (!Array.isArray(list)) continue;
+      for (const v of list) {
+        const u = String(v.transcriptUrl || "").trim();
+        if (isTranscriptSharedUrl(u) && !String(v.transcript || "").trim()) jobs.push({ v, u });
+      }
+    }
+  }
+  const btn = document.getElementById("fetchSharedTranscriptsBtn");
+  if (!jobs.length) {
+    if (!opts.silent) setSharedTranscriptStatus("No shared transcript URLs need loading (or text is already loaded).", false);
+    return { ok: 0, fail: 0, total: 0 };
+  }
+  if (btn) btn.disabled = true;
+  let ok = 0;
+  const failed = [];
+  for (const { v, u } of jobs) {
+    try {
+      v.transcript = await fetchTranscriptFromSharedUrl(u);
+      ok++;
+    } catch (e) {
+      failed.push((v.title || "Untitled").slice(0, 36) + ": " + (e.message || "fetch failed"));
+    }
+  }
+  try {
+    savePersistedLibrary();
+  } catch (e) {}
+  const msg =
+    "Loaded " +
+    ok +
+    " of " +
+    jobs.length +
+    " shared transcript(s)." +
+    (failed.length ? " Issues: " + failed.slice(0, 4).join(" · ") : "");
+  const allFailed = failed.length === jobs.length;
+  setSharedTranscriptStatus(msg, allFailed && jobs.length > 0);
+  if (opts.fromImport) {
+    const el = document.getElementById("excelImportStatus");
+    if (el) el.textContent = el.textContent + (el.textContent ? " " : "") + msg;
+  }
+  if (btn) btn.disabled = false;
+  runHomeTranscriptSearch();
+  return { ok: ok, fail: failed.length, total: jobs.length };
+}
+
+function collectTranscriptMatches(queryRaw) {
+  const matches = [];
+  const q = String(queryRaw || "").trim();
+  if (!q) return matches;
+  for (const [topic, subs] of Object.entries(videoLibrary)) {
+    if (!subs || typeof subs !== "object") continue;
+    for (const [sub, list] of Object.entries(subs)) {
+      if (!Array.isArray(list)) continue;
+      for (const v of list) {
+        if (transcriptTextMatchesQuery(v.transcript != null ? v.transcript : "", q)) {
+          matches.push(Object.assign({}, v, { _topic: topic, _sub: sub }));
+        }
+      }
+    }
+  }
+  return matches;
+}
+
+function runHomeTranscriptSearch() {
+  const input = document.getElementById("homeTranscriptSearch");
+  const label = document.getElementById("homeSearchResultsLabel");
+  const heading = document.getElementById("homeResultsHeading");
+  const grid = document.querySelector(".card-grid");
+  const raw = input ? input.value : "";
+  const q = raw.trim();
+
+  if (!q) {
+    if (label) label.textContent = "";
+    if (heading) heading.classList.remove("is-visible");
+    if (grid) grid.innerHTML = "";
+    return;
+  }
+
+  const matches = collectTranscriptMatches(q);
+  if (label) {
+    label.textContent = matches.length
+      ? matches.length + " video(s) matched your transcript search."
+      : "No videos contain that text in the Transcript field.";
+  }
+  if (heading) heading.classList.toggle("is-visible", matches.length > 0);
+
+  if (!matches.length) {
+    const hasAny = countVideosWithTranscriptText();
+    const totalApprox = Object.values(videoLibrary).reduce((acc, subs) => {
+      if (!subs || typeof subs !== "object") return acc;
+      return (
+        acc +
+        Object.values(subs).reduce((a, list) => a + (Array.isArray(list) ? list.length : 0), 0)
+      );
+    }, 0);
+    const pendingUrl = countPendingTranscriptUrls();
+    grid.innerHTML =
+      "<p style=\"color:#64748b;font-size:15px;\">No match. " +
+      (hasAny === 0 && pendingUrl === 0
+        ? "<strong>No transcript text loaded yet.</strong> Paste text into the Excel <strong>Transcript</strong> column, or use an <code>https</code> link to a shared transcript file (<code>.txt</code>, <code>.text</code>, <code>.vtt</code>) and click <strong>Load transcripts from shared links</strong>, then search again. "
+        : hasAny === 0 && pendingUrl > 0
+          ? "<strong>You have " +
+            pendingUrl +
+            " video(s) with shared transcript link(s) but text not loaded yet.</strong> Try <strong>Load transcripts from shared links</strong>, or download each file from SharePoint and use <strong>Choose local transcripts</strong> / drag-and-drop (match the file name in the URL or use <code>Video title.txt</code> / <code>.text</code> / <code>.vtt</code>). "
+          : "You have " +
+            hasAny +
+            " video(s) with transcript text out of " +
+            totalApprox +
+            " total. Try fewer words (e.g. just <code>bulk</code>). ") +
+      "Search ignores extra spaces and matches each word you type.</p>";
+    return;
+  }
+  renderVideos(matches, { showTopicPath: true });
+}
+
+function transcriptStatusDetailRow(v, idx) {
+  const hasText = String(normalizeTranscriptSearchText(v.transcript || "")).length > 0;
+  const hasUrl = isTranscriptSharedUrl(v.transcriptUrl);
+  const panelId = "transcript-panel-" + idx;
+  if (hasText) {
+    const raw = String(v.transcript != null ? v.transcript : "");
+    return (
+      `<div class="detail-row transcript-detail-row"><span class="detail-label">Transcript</span>` +
+      `<div class="detail-value transcript-detail-value">` +
+      `<button type="button" class="transcript-status-btn transcript-status-btn--ready" aria-expanded="false" aria-controls="${panelId}">View transcript</button>` +
+      `<div id="${panelId}" class="transcript-panel" hidden><div class="transcript-panel-inner">${escapeHtml(raw)}</div></div>` +
+      `</div></div>`
+    );
+  }
+  const label = hasUrl ? "Not loaded" : "No transcript";
+  return (
+    `<div class="detail-row"><span class="detail-label">Transcript</span>` +
+    `<div class="detail-value"><button type="button" class="transcript-status-btn transcript-status-btn--missing" disabled>${label}</button></div></div>`
+  );
+}
+
+function renderVideos(videos, opts) {
+  opts = opts || {};
+  const grid = document.querySelector(".card-grid");
+  grid.innerHTML = "";
+
+  if (!videos || videos.length === 0) {
+    grid.innerHTML = "<p>No videos available.</p>";
+    return;
+  }
+
+  videos.forEach((v, idx) => {
+    const pathHtml =
+      opts.showTopicPath && v._topic
+        ? `<p class="card-path">${escapeHtml(v._topic)}<span class="card-path-sep">\u2192</span>${escapeHtml(v._sub || "")}</p>`
+        : "";
+    const href = normalizeHref(v.link);
+    const hrefEsc = href ? escapeAttr(href) : "";
+    const linkLine = href
+      ? `<a href="${hrefEsc}" target="_blank" rel="noopener noreferrer">${escapeHtml(href)}</a>`
+      : escapeHtml(v.link || "");
+    const watchTag = href
+      ? `<a class="video-link" href="${hrefEsc}" target="_blank" rel="noopener noreferrer">Watch</a>`
+      : `<span class="video-link video-link-disabled">No link</span>`;
+
+    grid.innerHTML += `
+      <div class="card">
+        ${pathHtml}
+        <h4>${escapeHtml(v.title)}</h4>
+        <div class="card-details">
+          <div class="detail-row"><span class="detail-label">Desc</span><p class="detail-value">${escapeHtml(v.desc)}</p></div>
+          <div class="detail-row"><span class="detail-label">Duration</span><p class="detail-value">${escapeHtml(v.duration)}</p></div>
+          <div class="detail-row"><span class="detail-label">Author</span><p class="detail-value">${escapeHtml(v.author)}</p></div>
+          <div class="detail-row"><span class="detail-label">Link</span><p class="detail-value">${linkLine}</p></div>
+          ${transcriptStatusDetailRow(v, idx)}
+        </div>
+        ${watchTag}
+      </div>
+    `;
+  });
+}
+
+/* -------- EXCEL IMPORT -------- */
+function normalizeHeaderKey(k) {
+  return String(k).trim().toLowerCase().replace(/\s+/g, "_");
+}
+
+function colIndex(hdr, ...names) {
+  for (const n of names) {
+    const key = normalizeHeaderKey(n);
+    const i = hdr.indexOf(key);
+    if (i >= 0) return i;
+  }
+  return -1;
+}
+
+function extractLinkFromCell(sheet, rowIndex, colIndex, cellDisplayFallback) {
+  const addr = XLSX.utils.encode_cell({ r: rowIndex, c: colIndex });
+  const cell = sheet[addr];
+  if (cell && cell.l) {
+    const t = cell.l.Target || cell.l.target;
+    if (t != null && String(t).trim() !== "") return String(t).trim();
+  }
+  return String(cellDisplayFallback != null ? cellDisplayFallback : "").trim();
+}
+
+function parseSheetData(sheet, existingTopicMap) {
+  const topicMapOut = {};
+  const videoLib = {};
+  const aoa = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "", blankrows: false });
+  if (!aoa.length) return { topicMap: topicMapOut, videoLibrary: videoLib };
+
+  const hdr = aoa[0].map(c => normalizeHeaderKey(String(c)));
+  const iTopic = colIndex(hdr, "topic", "main_topic", "maintopic");
+  const iSub = colIndex(hdr, "subtopic", "sub", "sub_category");
+  const iTitle = colIndex(hdr, "title");
+  const iDesc = colIndex(hdr, "desc", "description");
+  const iDur = colIndex(hdr, "duration");
+  const iAuthor = colIndex(hdr, "author");
+  const iLink = colIndex(hdr, "link", "url");
+  const iTranscript = colIndex(
+    hdr,
+    "transcript",
+    "transcript_text",
+    "transcriptfile",
+    "transcripts",
+    "session_transcript",
+    "transcript_content",
+    "transcript_url",
+    "transcript_link"
+  );
+
+  for (let r = 1; r < aoa.length; r++) {
+    const row = aoa[r];
+    const topic = iTopic >= 0 ? String(row[iTopic] || "").trim() : "";
+    const sub = iSub >= 0 ? String(row[iSub] || "").trim() : "";
+    if (topic && sub) {
+      if (!topicMapOut[topic]) topicMapOut[topic] = [];
+      if (!topicMapOut[topic].includes(sub)) topicMapOut[topic].push(sub);
+    }
+  }
+
+  const effectiveTopicMap =
+    Object.keys(topicMapOut).length > 0 ? topicMapOut : (existingTopicMap && typeof existingTopicMap === "object" ? existingTopicMap : {});
+
+  for (let r = 1; r < aoa.length; r++) {
+    const row = aoa[r];
+    const topicRaw = iTopic >= 0 ? String(row[iTopic] || "").trim() : "";
+    const sub = iSub >= 0 ? String(row[iSub] || "").trim() : "";
+    const title = iTitle >= 0 ? String(row[iTitle] || "").trim() : "";
+    const desc = iDesc >= 0 ? String(row[iDesc] || "").trim() : "";
+    const duration = iDur >= 0 ? String(row[iDur] || "").trim() : "";
+    const author = iAuthor >= 0 ? String(row[iAuthor] || "").trim() : "";
+    let link = "";
+    if (iLink >= 0) {
+      link = extractLinkFromCell(sheet, r, iLink, row[iLink]);
+    }
+    let transcript = "";
+    let transcriptUrl = "";
+    if (iTranscript >= 0) {
+      const rawT = row[iTranscript];
+      const tc = extractLinkFromCell(sheet, r, iTranscript, cellValueToPlainString(rawT)).trim();
+      if (isTranscriptSharedUrl(tc)) transcriptUrl = tc;
+      else transcript = tc;
+    }
+
+    if (!sub) continue;
+    if (!title && !link) continue;
+
+    let videoTopic = topicRaw;
+    if (!videoTopic) {
+      const parents = Object.keys(effectiveTopicMap).filter(t =>
+        (effectiveTopicMap[t] || []).includes(sub)
+      );
+      if (parents.length === 1) videoTopic = parents[0];
+      else continue;
+    }
+    if (!(effectiveTopicMap[videoTopic] || []).includes(sub)) continue;
+
+    if (!videoLib[videoTopic]) videoLib[videoTopic] = {};
+    if (!videoLib[videoTopic][sub]) videoLib[videoTopic][sub] = [];
+    videoLib[videoTopic][sub].push({
+      title,
+      desc,
+      duration,
+      author,
+      link,
+      transcript,
+      transcriptUrl
+    });
+  }
+  return { topicMap: topicMapOut, videoLibrary: videoLib };
+}
+
+function applyImportedLibrary(imported) {
+  for (const [t, subs] of Object.entries(imported)) {
+    if (!subs || typeof subs !== "object" || Array.isArray(subs)) continue;
+    for (const [sub, list] of Object.entries(subs)) {
+      if (!Array.isArray(list) || !list.length) continue;
+      if (!videoLibrary[t]) videoLibrary[t] = {};
+      videoLibrary[t][sub] = list;
+    }
+  }
+}
+
+function setImportStatus(msg, isError) {
+  const el = document.getElementById("excelImportStatus");
+  if (!el) return;
+  el.textContent = msg;
+  el.className = "import-status" + (isError ? " error" : "");
+}
+
+function refreshCurrentViewAfterImport() {
+  if (viewingAllVideos) {
+    renderVideos(getAllVideosFlattened(), { showTopicPath: true });
+    return;
+  }
+  if (!currentMainTopic && !currentSubTopic) return;
+  if (currentSubTopic) {
+    if (
+      !topicMap[currentMainTopic] ||
+      !(topicMap[currentMainTopic] || []).includes(currentSubTopic)
+    ) {
+      goHome();
+      return;
+    }
+    renderVideos(getVideosForSubtopic(currentMainTopic, currentSubTopic));
+    return;
+  }
+  if (currentMainTopic && !topicMap[currentMainTopic]) {
+    goHome();
+    return;
+  }
+  renderVideos(getVideosForMainTopic(currentMainTopic));
+}
+
+function renderSidebar() {
+  const root = document.getElementById("topicTreeRoot");
+  if (!root) return;
+  root.innerHTML = "";
+  const topics = Object.keys(topicMap);
+  if (!topics.length) {
+    const li = document.createElement("li");
+    li.innerHTML = "<span style=\"color:#999;font-weight:normal\">Import Excel with Topic and SubTopic columns</span>";
+    root.appendChild(li);
+    return;
+  }
+  for (const topic of topics) {
+    const subs = topicMap[topic] || [];
+    const li = document.createElement("li");
+    const spanMain = document.createElement("span");
+    spanMain.textContent = topic;
+    spanMain.setAttribute("data-topic-type", "main");
+    spanMain.setAttribute("data-name", topic);
+    li.appendChild(spanMain);
+    const ulSub = document.createElement("ul");
+    for (const sub of subs) {
+      const liSub = document.createElement("li");
+      const spanSub = document.createElement("span");
+      spanSub.textContent = sub;
+      spanSub.setAttribute("data-topic-type", "sub");
+      spanSub.setAttribute("data-name", sub);
+      spanSub.setAttribute("data-parent-topic", topic);
+      liSub.appendChild(spanSub);
+      ulSub.appendChild(liSub);
+    }
+    li.appendChild(ulSub);
+    root.appendChild(li);
+  }
+}
+
+document.querySelector(".tree").addEventListener("click", function (e) {
+  const span = e.target.closest("span[data-topic-type]");
+  if (!span) return;
+  const type = span.getAttribute("data-topic-type");
+  const name = span.getAttribute("data-name");
+  if (!name) return;
+  if (type === "main") loadTopicVideos(name);
+  else if (type === "sub") {
+    const parent = span.getAttribute("data-parent-topic");
+    if (parent) loadVideos(parent, name);
+  }
+});
+
+document.getElementById("excelImport").addEventListener("change", function () {
+  const file = this.files && this.files[0];
+  this.value = "";
+  if (!file) return;
+  if (typeof XLSX === "undefined") {
+    setImportStatus("Sheet library failed to load. Check your network and refresh.", true);
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const wb = XLSX.read(data, { type: "array" });
+      const name = wb.SheetNames[0];
+      if (!name) {
+        setImportStatus("No sheets found in the workbook.", true);
+        return;
+      }
+      const sheet = wb.Sheets[name];
+      const { topicMap: newTopicMap, videoLibrary: imported } = parseSheetData(sheet, topicMap);
+      const topicKeys = Object.keys(newTopicMap);
+      if (topicKeys.length) {
+        topicMap = newTopicMap;
+        for (const t of Object.keys(videoLibrary)) {
+          if (!newTopicMap[t]) {
+            delete videoLibrary[t];
+            continue;
+          }
+          const bag = videoLibrary[t];
+          if (!bag || typeof bag !== "object") continue;
+          const allowed = new Set(newTopicMap[t] || []);
+          for (const s of Object.keys(bag)) {
+            if (!allowed.has(s)) delete bag[s];
+          }
+        }
+        renderSidebar();
+      }
+      const hasVideos = nestedImportHasVideos(imported);
+      if (!topicKeys.length && !hasVideos) {
+        setImportStatus("No data imported. Add Topic+SubTopic columns and/or SubTopic+Title/Link columns.", true);
+        return;
+      }
+      if (hasVideos) applyImportedLibrary(imported);
+      const parts = [];
+      if (topicKeys.length) parts.push("Topics: " + topicKeys.join(", "));
+      if (hasVideos) {
+        const vk = [];
+        for (const [t, subs] of Object.entries(imported)) {
+          if (!subs || typeof subs !== "object") continue;
+          for (const s of Object.keys(subs)) vk.push(t + " \u2192 " + s);
+        }
+        if (vk.length) parts.push("Videos: " + vk.join(", "));
+      }
+      if (savePersistedLibrary()) parts.push("saved for next visit");
+      setImportStatus(parts.join(". ") + ".", false);
+      const pending = countPendingTranscriptUrls();
+      if (pending > 0) setSharedTranscriptStatus("Loading " + pending + " shared transcript(s)…", false);
+      fetchAllSharedTranscripts({ fromImport: true, silent: pending === 0 }).finally(function () {
+        refreshCurrentViewAfterImport();
+      });
+    } catch (err) {
+      setImportStatus("Could not read file: " + (err.message || String(err)), true);
+    }
+  };
+  reader.onerror = function () {
+    setImportStatus("Could not read the file.", true);
+  };
+  reader.readAsArrayBuffer(file);
+});
+
+/* -------- SEARCH -------- */
+function showSearch() {
+  const s = document.getElementById("videoSearch");
+  s.style.display = "block";
+  s.value = "";
+}
+
+document.getElementById("videoSearch").addEventListener("input", function () {
+  const rawQ = this.value;
+  const q = rawQ.trim().toLowerCase();
+  let videos = [];
+
+  if (viewingAllVideos) {
+    videos = getAllVideosFlattened();
+  } else if (currentSubTopic && currentMainTopic) {
+    videos = getVideosForSubtopic(currentMainTopic, currentSubTopic);
+  } else if (currentMainTopic) {
+    videos = getVideosForMainTopic(currentMainTopic);
+  }
+
+  const filtered = videos.filter(
+    v =>
+      v.title.toLowerCase().includes(q) ||
+      v.desc.toLowerCase().includes(q) ||
+      v.author.toLowerCase().includes(q) ||
+      v.duration.toLowerCase().includes(q) ||
+      transcriptTextMatchesQuery(v.transcript != null ? v.transcript : "", rawQ)
+  );
+  renderVideos(filtered, viewingAllVideos ? { showTopicPath: true } : {});
+});
+
+/* -------- HOME -------- */
+function goHome() {
+  viewingAllVideos = false;
+  currentMainTopic = "";
+  currentSubTopic = "";
+  updateBreadcrumb();
+  document.getElementById("topicPageHeading").innerText = "";
+  document.querySelector("main.main").classList.add("main--home");
+  setExcelImportPanelVisible(true);
+  document.getElementById("videoSearch").style.display = "none";
+  const ht = document.getElementById("homeTranscriptSearch");
+  if (ht) ht.value = "";
+  const hsl = document.getElementById("homeSearchResultsLabel");
+  if (hsl) hsl.textContent = "";
+  const hrh = document.getElementById("homeResultsHeading");
+  if (hrh) hrh.classList.remove("is-visible");
+  const sts = document.getElementById("sharedTranscriptStatus");
+  if (sts) {
+    sts.textContent = "";
+    sts.className = "import-status";
+  }
+  const dz = document.getElementById("transcriptDropzone");
+  if (dz) dz.classList.remove("dragover");
+  document.querySelector(".card-grid").innerHTML = "";
+}
+
+function tibsCompleteResetToDefaults() {
+  /* Full wipe: no sample topics or videos. Re-import from Excel to rebuild. */
+  topicMap = {};
+  videoLibrary = {};
+  let storageOk = true;
+  try {
+    localStorage.removeItem(KNOWLEDGE_HUB_STORAGE_KEY);
+    if (!savePersistedLibrary()) storageOk = false;
+  } catch (e) {
+    storageOk = false;
+  }
+  viewingAllVideos = false;
+  currentMainTopic = "";
+  currentSubTopic = "";
+  renderSidebar();
+  goHome();
+  const ei = document.getElementById("excelImport");
+  if (ei) ei.value = "";
+  const tlf = document.getElementById("transcriptLocalFiles");
+  if (tlf) tlf.value = "";
+  setImportStatus("", false);
+  const vs = document.getElementById("videoSearch");
+  if (vs) vs.value = "";
+  if (!storageOk) {
+    window.alert(
+      "The catalog was reset on screen, but your browser may have blocked saving. Check storage permissions; a refresh might bring back the previous library."
+    );
+  }
+  return storageOk;
+}
+
+loadPersistedLibrary();
+renderSidebar();
+document.getElementById("topbarLogoHome").addEventListener("click", goHome);
+
+(function setupSidebarTopicsHeading() {
+  const h = document.getElementById("sidebarTopicsHeading");
+  if (!h) return;
+  h.addEventListener("click", loadAllVideos);
+  h.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      loadAllVideos();
+    }
+  });
+})();
+
+(function setupHomeTranscriptSearch() {
+  const input = document.getElementById("homeTranscriptSearch");
+  const btn = document.getElementById("homeTranscriptSearchBtn");
+  if (!input || !btn) return;
+  let t = null;
+  input.addEventListener("input", function () {
+    clearTimeout(t);
+    t = setTimeout(runHomeTranscriptSearch, 320);
+  });
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      clearTimeout(t);
+      runHomeTranscriptSearch();
+    }
+  });
+  btn.addEventListener("click", runHomeTranscriptSearch);
+})();
+
+(function setupFetchSharedTranscripts() {
+  const fetchBtn = document.getElementById("fetchSharedTranscriptsBtn");
+  if (!fetchBtn) return;
+  fetchBtn.addEventListener("click", function () {
+    setSharedTranscriptStatus("Fetching…", false);
+    fetchAllSharedTranscripts({ silent: false });
+  });
+})();
+
+(function setupLocalTranscriptFiles() {
+  const pick = document.getElementById("transcriptLocalPickBtn");
+  const input = document.getElementById("transcriptLocalFiles");
+  const dz = document.getElementById("transcriptDropzone");
+  if (!pick || !input) return;
+  pick.addEventListener("click", function () {
+    input.click();
+  });
+  input.addEventListener("change", async function () {
+    if (!this.files || !this.files.length) return;
+    setSharedTranscriptStatus("Reading local files…", false);
+    const { matched, read } = await applyLocalTranscriptFiles(this.files);
+    setSharedTranscriptStatus(
+      matched
+        ? "Matched " + matched + " video(s) from " + read + " file(s). Saved."
+        : "No match. Use the same file name as the end of each transcript URL (e.g. notes.txt or notes.vtt), or name files like your video titles with a .txt, .text, or .vtt extension.",
+      matched === 0
+    );
+    this.value = "";
+  });
+  if (!dz) return;
+  ["dragenter", "dragover"].forEach(function (ev) {
+    dz.addEventListener(ev, function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      dz.classList.add("dragover");
+    });
+  });
+  dz.addEventListener("dragleave", function (e) {
+    e.preventDefault();
+    if (!dz.contains(e.relatedTarget)) dz.classList.remove("dragover");
+  });
+  dz.addEventListener("drop", async function (e) {
+    e.preventDefault();
+    dz.classList.remove("dragover");
+    const files = e.dataTransfer && e.dataTransfer.files;
+    if (!files || !files.length) return;
+    setSharedTranscriptStatus("Reading local files…", false);
+    const { matched, read } = await applyLocalTranscriptFiles(files);
+    setSharedTranscriptStatus(
+      matched
+        ? "Matched " + matched + " video(s) from " + read + " file(s). Saved."
+        : "No match. Rename files to match the transcript URL file name or your video title with a .txt, .text, or .vtt extension.",
+      matched === 0
+    );
+  });
+})();
+
+(function setupTranscriptPanelToggle() {
+  const grid = document.querySelector(".card-grid");
+  if (!grid) return;
+  grid.addEventListener("click", function (e) {
+    const btn = e.target.closest(".transcript-status-btn--ready");
+    if (!btn) return;
+    const id = btn.getAttribute("aria-controls");
+    const panel = id && document.getElementById(id);
+    if (!panel) return;
+    const openNext = btn.getAttribute("aria-expanded") !== "true";
+    btn.setAttribute("aria-expanded", openNext ? "true" : "false");
+    btn.textContent = openNext ? "Hide transcript" : "View transcript";
+    if (openNext) panel.removeAttribute("hidden");
+    else panel.setAttribute("hidden", "");
+  });
+})();
+
+const TIBS_CLEAR_USER_ID = "sgurme";
+const TIBS_CLEAR_PASSWORD = "12345";
+(function setupTibsClearData() {
+  const btn = document.getElementById("tibsClearDataBtn");
+  if (!btn) return;
+  btn.addEventListener("click", function () {
+    const uid = window.prompt("Enter user ID to clear data:");
+    if (uid === null) return;
+    if (String(uid).trim() !== TIBS_CLEAR_USER_ID) {
+      window.alert("Invalid user ID. Data was not cleared.");
+      return;
+    }
+    const pass = window.prompt("Enter password to confirm clear:");
+    if (pass === null) return;
+    if (String(pass) !== TIBS_CLEAR_PASSWORD) {
+      window.alert("Invalid password. Data was not cleared.");
+      return;
+    }
+    tibsCompleteResetToDefaults();
+  });
+})();
+</script>
+
+</body>
+</html>
